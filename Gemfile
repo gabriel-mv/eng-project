@@ -68,3 +68,6 @@ gem 'listen', '~> 3.1', '>= 3.1.5'
 
 gem 'bootstrap-sass'
 gem 'rails_12factor'
+
+#Gabriel - autenticacao google
+gem "omniauth-google-oauth2"

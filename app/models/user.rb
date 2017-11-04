@@ -6,6 +6,10 @@ class User < ActiveRecord::Base
 
   devise :omniauthable, :omniauth_providers => [:facebook]
 
+  ###Gabriel
+  devise :omniauthable, :omniauth_providers => [:google_oauth2]
+  ###
+
 	def self.create_with_omniauth(auth)
 	  user = find_or_create_by(uid: auth.uid, provider:  auth.provider)
 	  user.email =  auth.info.email
@@ -16,5 +20,20 @@ class User < ActiveRecord::Base
 	  user.save!
 	  user
 	end
+
+	###Gabriel
+	def self.from_omniauth(access_token)
+  		data = access_token.info
+  		user = User.where(:email => data["email"]).first
+
+  		unless user
+    		password = Devise.friendly_token[0,20]
+    		user = User.create(first_name: data["first_name"], email: data["email"],
+      			password: password#, password_confirmation: password
+    		)
+  		end
+  		user
+	end
+	###
 
 end
